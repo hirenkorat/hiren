@@ -8,57 +8,57 @@ using manpower;
 /// <remarks>The candidate is not expected to modify this class</remarks>
 internal class Harness
 {
-  private readonly string _candidate;
-  private readonly IRepository _repository;
-  private readonly ITaskPlanner _taskPlanner;
-  private readonly IEnumerable<TaskDataset> _datasetChoices;
-  private readonly IUIView _view;
+    private readonly string _candidate;
+    private readonly IRepository _repository;
+    private readonly ITaskPlanner _taskPlanner;
+    private readonly IEnumerable<TaskDataset> _datasetChoices;
+    private readonly IUIView _view;
 
-  // results of executing the task planner
-  private IEnumerable<Assignment> _assignments;
-  private TimeSpan _elapsedTime;
-  private Exception _error;
+    // results of executing the task planner
+    private IEnumerable<Assignment> _assignments;
+    private TimeSpan _elapsedTime;
+    private Exception _error;
 
-  public Harness(
-    string candidate,
-    IRepository repository,
-    ITaskPlanner taskPlanner,
-    IEnumerable<TaskDataset> datasetChoices,
-    IUIView view)
-  {
-    _candidate = candidate;
-    _repository = repository;
-    _taskPlanner = taskPlanner;
-    _datasetChoices = datasetChoices;
-    _view = view;
-  }
-
-  public void Execute()
-  {
-    try
+    public Harness(
+      string candidate,
+      IRepository repository,
+      ITaskPlanner taskPlanner,
+      IEnumerable<TaskDataset> datasetChoices,
+      IUIView view)
     {
-      _view.ReportStart(_candidate, DateTime.Now);
-
-      var dataset = _view.GetDatasetSelection(_datasetChoices);
-      _repository.LoadData(dataset.DatasetPath);
-
-      _view.ReportLoadedData(_repository);
-
-      Stopwatch stopwatch = Stopwatch.StartNew();
-      _assignments = _taskPlanner.Execute();
-      stopwatch.Stop();
-      _elapsedTime = stopwatch.Elapsed;
-
-      _repository.SaveAssignments(_assignments, dataset.SavePath);
-
-      _view.ReportResults(_candidate, _elapsedTime, _assignments);
+        _candidate = candidate;
+        _repository = repository;
+        _taskPlanner = taskPlanner;
+        _datasetChoices = datasetChoices;
+        _view = view;
     }
-    catch (Exception e)
+
+    public void Execute()
     {
-      _error = e;
-      _view.ReportError(e);
+        try
+        {
+            _view.ReportStart(_candidate, DateTime.Now);
 
-      throw;
+            var dataset = _view.GetDatasetSelection(_datasetChoices);
+            _repository.LoadData(dataset.DatasetPath);
+
+            _view.ReportLoadedData(_repository);
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            _assignments = _taskPlanner.Execute();
+            stopwatch.Stop();
+            _elapsedTime = stopwatch.Elapsed;
+
+            _repository.SaveAssignments(_assignments, dataset.SavePath);
+
+            _view.ReportResults(_candidate, _elapsedTime, _assignments);
+        }
+        catch (Exception e)
+        {
+            _error = e;
+            _view.ReportError(e);
+
+            throw;
+        }
     }
-  }
 }

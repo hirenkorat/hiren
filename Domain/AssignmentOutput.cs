@@ -6,15 +6,10 @@
 /// A manpower plan consists of a collection of assignments
 ///   - one assignment for each task in the plan.
 /// </Remarks>
-public class Assignment
+public class AssignmentOutput
 {
-    public Task Task { get; set; }
-    public Person Person { get; set; }
+    public int TaskId { get; set; }
+    public int PersonId { get; set; }
     public int Day { get; set; }
 
-    public override string ToString()
-      => $"Day {Day} - Task {Task.Id}{ReportPriority()} - {Person.Name}";
-
-    private string ReportPriority()
-      => Task.IsPriority ? " [Priority]" : string.Empty;
 }

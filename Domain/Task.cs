@@ -8,12 +8,12 @@ using CsvHelper.Configuration.Attributes;
 /// </Remarks>
 public class Task
 {
-  public int Id { get; set; }
-  public Skill SkillRequired { get; set; }
-  public bool IsPriority { get; set; }
+    public int Id { get; set; }
+    public Skill SkillRequired { get; set; }
+    public bool IsPriority { get; set; }
 
-  public override string ToString()
-    => $"Task {Id}, Requires skill {SkillRequired.Name}{ReportPriority()}";
-  private string ReportPriority()
-    => IsPriority ? " [Priority]" : string.Empty;
+    public override string ToString()
+      => $"Task {Id}, Requires skill {SkillRequired.Name}{ReportPriority()}";
+    private string ReportPriority()
+      => IsPriority ? " [Priority]" : string.Empty;
 }

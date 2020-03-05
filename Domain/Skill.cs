@@ -3,10 +3,10 @@
 /// </Summary>
 public class Skill
 {
-  public int Id { get; set; }
-  public string Name { get; set; }
-  public int SkillLevel { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int SkillLevel { get; set; }
 
-  public override string ToString()
-    => $"[{Id}] {Name}, Skill Level: {SkillLevel}";
+    public override string ToString()
+      => $"[{Id}] {Name}, Skill Level: {SkillLevel}";
 }
